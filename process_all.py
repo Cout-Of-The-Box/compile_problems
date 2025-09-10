@@ -8,6 +8,69 @@ import shutil
 import argparse
 import pandas as pd
 
+#!/usr/bin/env python3
+"""
+process_all.py
+
+DESCRIPTION
+    Scans one or more company‐named subfolders for five CSV files each:
+        1. "1. Thirty Days.csv"
+        2. "2. Three Months.csv"
+        3. "3. Six Months.csv"
+        4. "4. More Than Six Months.csv"
+        5. "5. All.csv"
+    Merges them by pattern, deduplicates on Title (adding a `count` column),
+    sorts descending by count, and writes final CSVs into an output folder.
+
+DIRECTORY STRUCTURE
+    script_dir/
+    ├─ process_all.py
+    ├─ CompanyA/
+    │    ├─ 1. Thirty Days.csv
+    │    ├─ … (all five CSVs)
+    ├─ CompanyB/
+    │    └─ …
+    └─ …
+
+USAGE
+    # Process every subfolder under script_dir/
+    python3 process_all.py
+
+    # Process only specific folders by name
+    python3 process_all.py -c "CompanyA,CompanyB"
+
+    # Process folders listed one per line in a file
+    python3 process_all.py -c companies.txt
+
+OPTIONS
+    -c, --companies   OPTIONAL filter.  
+                      Either a comma-separated list of folder names:
+                          "Google,Amazon,Microsoft"  
+                      Or a path to a text file (one name per line).
+
+BEHAVIOR
+    * If no `-c` is provided, scans every subdirectory and writes to:
+          all_companies_compiled/
+    * If `-c` is provided, only those listed folders are scanned and writes to:
+          custom_companies_compiled/
+
+OUTPUT
+    - One final CSV per pattern, named:
+        "1. Thirty Days_final.csv", …, "5. All_final.csv"  
+      placed inside the chosen output folder.  
+    - Intermediate files `temp_output.csv` and `final_output.csv` are created
+      in the script directory but not retained in the final output folder.
+
+DEPENDENCIES
+    - Python 3.x  
+    - pandas (for sorting step)
+
+AUTHOR
+    Your Name
+    Date: YYYY-MM-DD
+"""
+
+
 # ─── GLOBAL HEADER ─────────────────────────────────────────────────────────────
 HEADER_LIST = [
     "Difficulty",
